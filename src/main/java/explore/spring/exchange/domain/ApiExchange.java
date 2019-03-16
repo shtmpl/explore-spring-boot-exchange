@@ -12,9 +12,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import java.time.Instant;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
@@ -31,10 +34,12 @@ public class ApiExchange {
     private Date dateCreated;
 
     @ManyToOne
-    private ApiExchange parent;
+    @JoinColumn(name = "exchange_id")
+    private ApiExchange main;
 
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<ApiExchange> children;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "exchange_id")
+    private Set<ApiExchange> auxiliaries = new LinkedHashSet<>();
 
     @Embedded
     @AttributeOverrides(value = {
@@ -67,20 +72,20 @@ public class ApiExchange {
         this.dateCreated = dateCreated;
     }
 
-    public ApiExchange getParent() {
-        return parent;
+    public ApiExchange getMain() {
+        return main;
     }
 
-    public void setParent(ApiExchange parent) {
-        this.parent = parent;
+    public void setMain(ApiExchange main) {
+        this.main = main;
     }
 
-    public Set<ApiExchange> getChildren() {
-        return children;
+    public Set<ApiExchange> getAuxiliaries() {
+        return auxiliaries;
     }
 
-    public void setChildren(Set<ApiExchange> children) {
-        this.children = children;
+    public void setAuxiliaries(Set<ApiExchange> auxiliaries) {
+        this.auxiliaries = auxiliaries;
     }
 
     public ApiRequest getRequest() {
@@ -97,5 +102,12 @@ public class ApiExchange {
 
     public void setResponse(ApiResponse response) {
         this.response = response;
+    }
+
+    @PrePersist
+    public void onPrePersist() {
+        if (this.dateCreated == null) {
+            this.dateCreated = Date.from(Instant.now());
+        }
     }
 }

@@ -1,36 +1,64 @@
 package explore.spring.exchange.integration;
 
 import explore.spring.exchange.domain.ApiExchange;
+import explore.spring.exchange.domain.ApiRequest;
+import explore.spring.exchange.domain.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class ResourceClientHttpRequestInterceptor implements ClientHttpRequestInterceptor {
+
+    private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body,
                                         ClientHttpRequestExecution execution) throws IOException {
-        ApiExchange exchange = (ApiExchange) RequestContextHolder.currentRequestAttributes()
-                .getAttribute("exchange", RequestAttributes.SCOPE_REQUEST);
-
-        logger.info("=> ResourceClientHttpRequestInterceptor: {}", exchange);
-        logger.info("=> ResourceClientHttpRequestInterceptor: {} {}", request.getMethod(), request.getURI());
-
         ClientHttpResponse response = execution.execute(request, body);
 
-        logger.info("=> ResourceClientHttpRequestInterceptor: {}", response.getStatusCode());
+        ApiExchange mainExchange = (ApiExchange) RequestContextHolder.currentRequestAttributes().getAttribute("exchange", RequestAttributes.SCOPE_REQUEST);
+        if (mainExchange == null) {
+            return response;
+        }
+
+        ApiExchange auxExchange = new ApiExchange();
+        auxExchange.setRequest(extractApiRequest(request, body));
+        auxExchange.setResponse(extractApiResponse(response));
+
+        auxExchange.setMain(mainExchange);
+        mainExchange.getAuxiliaries().add(auxExchange);
 
         return response;
+    }
+
+    private static ApiRequest extractApiRequest(HttpRequest request, byte[] body) {
+        ApiRequest result = new ApiRequest();
+        result.setUrl(request.getURI().toString());
+        result.setMethod(request.getMethodValue());
+        if (body.length > 0) {
+            result.setBody(new String(body, DEFAULT_CHARSET));
+        }
+
+        return result;
+    }
+
+    private static ApiResponse extractApiResponse(ClientHttpResponse response) throws IOException {
+        ApiResponse result = new ApiResponse();
+        result.setStatusCode(response.getRawStatusCode());
+        result.setBody(StreamUtils.copyToString(response.getBody(), DEFAULT_CHARSET));
+
+        return result;
     }
 }

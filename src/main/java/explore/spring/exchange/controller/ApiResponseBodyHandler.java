@@ -1,6 +1,9 @@
 package explore.spring.exchange.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import explore.spring.exchange.domain.ApiExchange;
+import explore.spring.exchange.domain.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
@@ -25,11 +28,23 @@ public class ApiResponseBodyHandler implements ResponseBodyAdvice<Object> {
 
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-        explore.spring.exchange.domain.ApiExchange exchange = (ApiExchange) RequestContextHolder.currentRequestAttributes()
-                .getAttribute("exchange", RequestAttributes.SCOPE_REQUEST);
+        ApiExchange apiExchange = (ApiExchange) RequestContextHolder.currentRequestAttributes().getAttribute("exchange", RequestAttributes.SCOPE_REQUEST);
+        if (apiExchange == null) {
+            return body;
+        }
 
-        logger.info("=> ApiResponseBodyHandler: {}", exchange);
+        ApiResponse apiResponse = apiExchange.getResponse();
+        ObjectMapper mapper = new ObjectMapper();
+        apiResponse.setBody(json(mapper, body));
 
         return body;
+    }
+
+    private String json(ObjectMapper mapper, Object object) {
+        try {
+            return mapper.writeValueAsString(object);
+        } catch (JsonProcessingException exception) {
+            throw new RuntimeException(exception);
+        }
     }
 }

@@ -18,7 +18,7 @@ public class ApiRequestBodyHandler implements RequestBodyAdvice {
 
     @Override
     public boolean supports(MethodParameter methodParameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
-        return true; // methodParameter.hasMethodAnnotation(ApiExchange.class);
+        return true;
     }
 
     @Override
