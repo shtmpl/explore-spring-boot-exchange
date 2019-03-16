@@ -21,11 +21,11 @@ public class ResourceClient {
         this.restTemplate = restTemplateBuilder.build();
     }
 
-    public String request(String resource) {
+    public String request(String resource, HttpMethod method) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(resource);
 
         try {
-            return restTemplate.exchange(builder.toUriString(), HttpMethod.GET, null, String.class).getBody();
+            return restTemplate.exchange(builder.toUriString(), method, null, String.class).getBody();
         } catch (Exception exception) {
             logger.error("Error interacting with remote resource", exception);
 
