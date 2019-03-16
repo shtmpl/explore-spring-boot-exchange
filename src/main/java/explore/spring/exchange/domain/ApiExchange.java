@@ -103,11 +103,4 @@ public class ApiExchange {
     public void setResponse(ApiResponse response) {
         this.response = response;
     }
-
-    @PrePersist
-    public void onPrePersist() {
-        if (this.dateCreated == null) {
-            this.dateCreated = Date.from(Instant.now());
-        }
-    }
 }

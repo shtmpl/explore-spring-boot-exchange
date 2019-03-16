@@ -7,7 +7,6 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 @Component
 public class ResourceClient {
@@ -22,10 +21,8 @@ public class ResourceClient {
     }
 
     public String request(String resource, HttpMethod method) {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(resource);
-
         try {
-            return restTemplate.exchange(builder.toUriString(), method, null, String.class).getBody();
+            return restTemplate.exchange(resource, method, null, String.class).getBody();
         } catch (Exception exception) {
             logger.error("Error interacting with remote resource", exception);
 

@@ -12,6 +12,8 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.Instant;
+import java.util.Date;
 
 @Component
 public class ApiExchangeInterceptor extends HandlerInterceptorAdapter {
@@ -29,9 +31,10 @@ public class ApiExchangeInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
                              Object handler) throws Exception {
         ApiExchange apiExchange = new ApiExchange();
+        apiExchange.setDateCreated(Date.from(Instant.now()));
 
         ApiRequest apiRequest = new ApiRequest();
-        apiRequest.setUrl(request.getRequestURL().toString());
+        apiRequest.setUrl(formatRequestUrl(request));
         apiRequest.setMethod(request.getMethod());
 
         ApiResponse apiResponse = new ApiResponse();
@@ -41,7 +44,20 @@ public class ApiExchangeInterceptor extends HandlerInterceptorAdapter {
 
         request.setAttribute("exchange", apiExchange);
 
+        apiExchangeService.save(apiExchange);
+
         return true;
+    }
+
+    private static String formatRequestUrl(HttpServletRequest request) {
+        StringBuilder result = new StringBuilder(request.getRequestURL().toString());
+
+        String query = request.getQueryString();
+        if (query == null || query.trim().isEmpty()) {
+            return result.toString();
+        }
+
+        return result.append("?").append(query).toString();
     }
 
     @Override

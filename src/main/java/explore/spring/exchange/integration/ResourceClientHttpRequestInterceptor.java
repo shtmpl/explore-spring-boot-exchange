@@ -16,6 +16,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
+import java.util.Date;
 
 public class ResourceClientHttpRequestInterceptor implements ClientHttpRequestInterceptor {
 
@@ -26,6 +28,10 @@ public class ResourceClientHttpRequestInterceptor implements ClientHttpRequestIn
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body,
                                         ClientHttpRequestExecution execution) throws IOException {
+        ApiExchange auxExchange = new ApiExchange();
+        auxExchange.setDateCreated(Date.from(Instant.now()));
+        auxExchange.setRequest(extractApiRequest(request, body));
+
         ClientHttpResponse response = execution.execute(request, body);
 
         ApiExchange mainExchange = (ApiExchange) RequestContextHolder.currentRequestAttributes().getAttribute("exchange", RequestAttributes.SCOPE_REQUEST);
@@ -33,8 +39,6 @@ public class ResourceClientHttpRequestInterceptor implements ClientHttpRequestIn
             return response;
         }
 
-        ApiExchange auxExchange = new ApiExchange();
-        auxExchange.setRequest(extractApiRequest(request, body));
         auxExchange.setResponse(extractApiResponse(response));
 
         auxExchange.setMain(mainExchange);
@@ -47,8 +51,10 @@ public class ResourceClientHttpRequestInterceptor implements ClientHttpRequestIn
         ApiRequest result = new ApiRequest();
         result.setUrl(request.getURI().toString());
         result.setMethod(request.getMethodValue());
-        if (body.length > 0) {
-            result.setBody(new String(body, DEFAULT_CHARSET));
+
+        String json = new String(body, DEFAULT_CHARSET);
+        if (!json.isEmpty()) {
+            result.setBody(json);
         }
 
         return result;
@@ -57,7 +63,11 @@ public class ResourceClientHttpRequestInterceptor implements ClientHttpRequestIn
     private static ApiResponse extractApiResponse(ClientHttpResponse response) throws IOException {
         ApiResponse result = new ApiResponse();
         result.setStatusCode(response.getRawStatusCode());
-        result.setBody(StreamUtils.copyToString(response.getBody(), DEFAULT_CHARSET));
+
+        String json = StreamUtils.copyToString(response.getBody(), DEFAULT_CHARSET);
+        if (!json.isEmpty()) {
+            result.setBody(json);
+        }
 
         return result;
     }

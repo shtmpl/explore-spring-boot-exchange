@@ -23,22 +23,18 @@ public class ApiRequestBodyHandler implements RequestBodyAdvice {
 
     @Override
     public HttpInputMessage beforeBodyRead(HttpInputMessage inputMessage, MethodParameter parameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) throws IOException {
-        logger.info("=> ApiRequestBodyHandler");
-
         return inputMessage;
     }
 
     @Override
     public Object afterBodyRead(Object body, HttpInputMessage inputMessage, MethodParameter parameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
-        logger.info("=> ApiRequestBodyHandler (Read)");
+        // FIXME: Serialize body and update ApiExchange
 
         return body;
     }
 
     @Override
     public Object handleEmptyBody(Object body, HttpInputMessage inputMessage, MethodParameter parameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
-        logger.info("=> ApiRequestBodyHandler (EmptyBody)");
-
         return body;
     }
 }

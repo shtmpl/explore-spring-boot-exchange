@@ -14,7 +14,7 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<?> handleUnexpectedException(RuntimeException exception) {
-        logger.info("=> ApiExceptionHandler");
+        logger.error("Unexpected error occurred", exception);
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exception.getMessage());
     }

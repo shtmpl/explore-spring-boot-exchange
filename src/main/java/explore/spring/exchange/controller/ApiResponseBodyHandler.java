@@ -33,6 +33,10 @@ public class ApiResponseBodyHandler implements ResponseBodyAdvice<Object> {
             return body;
         }
 
+        if (body == null) {
+            return null;
+        }
+
         ApiResponse apiResponse = apiExchange.getResponse();
         ObjectMapper mapper = new ObjectMapper();
         apiResponse.setBody(json(mapper, body));
