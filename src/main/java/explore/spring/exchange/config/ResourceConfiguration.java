@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 
 @Configuration
-@EnableConfigurationProperties(ResourceProperties.class)
 public class ResourceConfiguration {
 
     @Bean
