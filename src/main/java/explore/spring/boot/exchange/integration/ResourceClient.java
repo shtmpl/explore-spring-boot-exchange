@@ -1,4 +1,4 @@
-package explore.spring.exchange.integration;
+package explore.spring.boot.exchange.integration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

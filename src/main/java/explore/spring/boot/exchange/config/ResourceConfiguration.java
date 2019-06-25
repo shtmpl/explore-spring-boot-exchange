@@ -1,6 +1,6 @@
-package explore.spring.exchange.config;
+package explore.spring.boot.exchange.config;
 
-import explore.spring.exchange.integration.ResourceClientHttpRequestInterceptor;
+import explore.spring.boot.exchange.integration.ResourceClientHttpRequestInterceptor;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

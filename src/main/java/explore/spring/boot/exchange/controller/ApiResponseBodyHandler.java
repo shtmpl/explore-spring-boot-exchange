@@ -1,9 +1,9 @@
-package explore.spring.exchange.controller;
+package explore.spring.boot.exchange.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import explore.spring.exchange.domain.ApiExchange;
-import explore.spring.exchange.domain.ApiResponse;
+import explore.spring.boot.exchange.domain.ApiResponse;
+import explore.spring.boot.exchange.domain.ApiExchange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;

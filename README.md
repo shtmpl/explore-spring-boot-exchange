@@ -10,6 +10,6 @@ That allows basic application layers (controllers, services, repositories, whate
 focus on business domain logic workflows without requiring them to 
 deal with a side (and usually overlooked) functionality.  
 
-`$ dropdb -h localhost -p 5432 -U aspirant explore-spring-exchange`
+`$ dropdb -h localhost -p 5432 -U aspirant explore-spring-boot-exchange`
 
-`$ createdb -h localhost -p 5432 -U aspirant explore-spring-exchange`
+`$ createdb -h localhost -p 5432 -U aspirant explore-spring-boot-exchange`

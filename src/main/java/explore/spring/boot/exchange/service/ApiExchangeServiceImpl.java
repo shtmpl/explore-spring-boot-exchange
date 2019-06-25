@@ -1,7 +1,7 @@
-package explore.spring.exchange.service;
+package explore.spring.boot.exchange.service;
 
-import explore.spring.exchange.domain.ApiExchange;
-import explore.spring.exchange.repository.ApiExchangeRepository;
+import explore.spring.boot.exchange.domain.ApiExchange;
+import explore.spring.boot.exchange.repository.ApiExchangeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

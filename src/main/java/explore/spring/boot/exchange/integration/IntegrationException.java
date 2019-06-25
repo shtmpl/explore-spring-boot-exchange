@@ -1,4 +1,4 @@
-package explore.spring.exchange.integration;
+package explore.spring.boot.exchange.integration;
 
 public class IntegrationException extends RuntimeException {
 

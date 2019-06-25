@@ -1,4 +1,4 @@
-package explore.spring.exchange.domain;
+package explore.spring.boot.exchange.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;

@@ -1,6 +1,6 @@
-package explore.spring.exchange.service;
+package explore.spring.boot.exchange.service;
 
-import explore.spring.exchange.repository.ResourceRepository;
+import explore.spring.boot.exchange.repository.ResourceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;

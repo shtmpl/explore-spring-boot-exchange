@@ -1,4 +1,4 @@
-package explore.spring.exchange;
+package explore.spring.boot.exchange;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

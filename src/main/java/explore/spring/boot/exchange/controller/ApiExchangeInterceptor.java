@@ -1,9 +1,9 @@
-package explore.spring.exchange.controller;
+package explore.spring.boot.exchange.controller;
 
-import explore.spring.exchange.domain.ApiExchange;
-import explore.spring.exchange.domain.ApiRequest;
-import explore.spring.exchange.domain.ApiResponse;
-import explore.spring.exchange.service.ApiExchangeService;
+import explore.spring.boot.exchange.domain.ApiResponse;
+import explore.spring.boot.exchange.service.ApiExchangeService;
+import explore.spring.boot.exchange.domain.ApiExchange;
+import explore.spring.boot.exchange.domain.ApiRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

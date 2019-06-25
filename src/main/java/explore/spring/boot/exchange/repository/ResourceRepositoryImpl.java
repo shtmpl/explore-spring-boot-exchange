@@ -1,6 +1,6 @@
-package explore.spring.exchange.repository;
+package explore.spring.boot.exchange.repository;
 
-import explore.spring.exchange.integration.ResourceClient;
+import explore.spring.boot.exchange.integration.ResourceClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Repository;

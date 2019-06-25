@@ -1,4 +1,4 @@
-package explore.spring.exchange.repository;
+package explore.spring.boot.exchange.repository;
 
 import org.springframework.http.HttpMethod;
 

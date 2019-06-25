@@ -1,8 +1,8 @@
-package explore.spring.exchange.integration;
+package explore.spring.boot.exchange.integration;
 
-import explore.spring.exchange.domain.ApiExchange;
-import explore.spring.exchange.domain.ApiRequest;
-import explore.spring.exchange.domain.ApiResponse;
+import explore.spring.boot.exchange.domain.ApiExchange;
+import explore.spring.boot.exchange.domain.ApiRequest;
+import explore.spring.boot.exchange.domain.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpRequest;

@@ -1,8 +1,8 @@
-package explore.spring.exchange.controller;
+package explore.spring.boot.exchange.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import explore.spring.exchange.service.ResourceService;
+import explore.spring.boot.exchange.service.ResourceService;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;

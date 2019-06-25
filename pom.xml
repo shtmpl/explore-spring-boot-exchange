@@ -10,7 +10,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
-	<groupId>explore.spring</groupId>
+	<groupId>explore.spring.boot</groupId>
 	<artifactId>exchange</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>exchange</name>
